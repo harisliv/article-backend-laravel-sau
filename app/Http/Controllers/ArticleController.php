@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Faker\Generator;
+use Illuminate\Container\Container;
 
 class ArticleController extends Controller
 {
@@ -14,11 +16,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(1);
+        $articles = Article::paginate(3);
 
         return view('articles.index', [
             'articles' => $articles,
-            'page_title' => "This is the articles page"
+            'page_title' => "Articles List"
         ]);
     }
 
@@ -40,7 +42,18 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        Article::create(['name' => $request->name, 'description' => $request->description]);
+        $faker = Container::getInstance()->make(Generator::class);
+
+        $request->validate([
+            'name' => 'required|unique:articles|max:15'
+        ]);
+        Article::create([
+            'name' => $request->name,
+            'categoryId' => $faker->numberBetween($min = 1, $max = 6),
+            'published' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
+            'description' => $request->description,
+            'image' => $faker->imageUrl($width = 640, $height = 480, 'article'), 
+        ]);
         return redirect('/articles');
     }
 
