@@ -1,1 +1,3 @@
-this is a footer
+<footer>
+    {{ $articles->links() }}
+</footer>

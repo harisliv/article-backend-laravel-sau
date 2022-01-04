@@ -14,6 +14,13 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index_api()
+    {
+        $articles = Article::all();
+
+        return json_encode($articles);
+    }
+
     public function index()
     {
         $articles = Article::paginate(3);
@@ -52,7 +59,7 @@ class ArticleController extends Controller
             'categoryId' => $faker->numberBetween($min = 1, $max = 6),
             'published' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $request->description,
-            'image' => $faker->imageUrl($width = 640, $height = 480, 'article'), 
+            'image' => $faker->imageUrl($width = 50, $height = 50, 'article'), 
         ]);
         return redirect('/articles');
     }

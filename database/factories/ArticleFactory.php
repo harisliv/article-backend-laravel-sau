@@ -18,7 +18,7 @@ class ArticleFactory extends Factory
             'categoryId' => $this->faker->numberBetween($min = 1, $max = 6),
             'published' => $this->faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $this->faker->text(), 
-            'image' => $this->faker->imageUrl($width = 640, $height = 480, 'article'), 
+            'image' => $this->faker->imageUrl($width = 50, $height = 50, 'article'), 
         ];
     }
 }
