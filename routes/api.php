@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/', [ArticleController::class, 'index_api']);
+Route::get('/category/{category}', [ArticleController::class, 'article_by_category']);

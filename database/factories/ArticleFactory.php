@@ -11,14 +11,17 @@ class ArticleFactory extends Factory
      *
      * @return array
      */
+
+     
     public function definition()
     {
+        $randImg = "https://picsum.photos/".rand(0,200);
         return [
             'name' => $this->faker->unique()->name,
-            'categoryId' => $this->faker->numberBetween($min = 1, $max = 6),
+            'category' => $this->faker->randomElement(['economy' ,'sports', 'lifestyle']),
             'published' => $this->faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $this->faker->text(), 
-            'image' => $this->faker->imageUrl($width = 50, $height = 50, 'article'), 
+            'image' => $randImg, 
         ];
     }
 }

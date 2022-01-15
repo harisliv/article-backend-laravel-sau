@@ -16,9 +16,16 @@ class ArticleController extends Controller
      */
     public function index_api()
     {
-        $articles = Article::all();
+        $articles = Article::paginate(6);
+        return json_encode($articles->items());
+    }
 
-        return json_encode($articles);
+    public function article_by_category(Request $request)
+    {
+        $category = $request->query('name');
+        $found = Article::where('category', '=', $category);
+        return json_encode($found);
+
     }
 
     public function index()
@@ -59,7 +66,7 @@ class ArticleController extends Controller
             'categoryId' => $faker->numberBetween($min = 1, $max = 6),
             'published' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $request->description,
-            'image' => $faker->imageUrl($width = 50, $height = 50, 'article'), 
+            'image' => $faker->imageUrl($width = 50, $height = 50, 'article'),
         ]);
         return redirect('/articles');
     }
