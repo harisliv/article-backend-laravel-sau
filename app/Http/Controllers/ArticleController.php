@@ -20,12 +20,11 @@ class ArticleController extends Controller
         return json_encode($articles->items());
     }
 
-    public function article_by_category(Request $request)
+    public function article_by_category($category_id)
     {
-        $category = $request->query('name');
-        $found = Article::where('category', '=', $category);
+        $category = $category_id;
+        $found = Article::where('category_id', $category)->get();
         return json_encode($found);
-
     }
 
     public function index()
@@ -45,7 +44,12 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $articles = Article::paginate(3);
+
+        return view('articles.create', [
+            'articles' => $articles,
+            'page_title' => "Articles List"
+        ]);
     }
 
     /**
@@ -63,7 +67,7 @@ class ArticleController extends Controller
         ]);
         Article::create([
             'name' => $request->name,
-            'categoryId' => $faker->numberBetween($min = 1, $max = 6),
+            'category_id' => $faker->numberBetween($min = 1, $max = 3),
             'published' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $request->description,
             'image' => $faker->imageUrl($width = 50, $height = 50, 'article'),
@@ -79,7 +83,13 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('articles/show', ['article' => $article]);
+        $articles = Article::paginate(3);
+
+        return view('articles/show', [
+            'article' => $article, 
+            'articles' => $articles,
+            'page_title' => "Articles List"
+        ]);
     }
 
     /**
@@ -90,7 +100,11 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('articles/edit', ['article' => $article]);
+        $articles = Article::paginate(3);
+
+        return view('articles/edit', ['article' => $article, 
+        'articles' => $articles,
+        'page_title' => "Articles List"]);
     }
 
     /**

@@ -1,15 +1,15 @@
-@extends('layout.app')
+@extends('layout.inner')
 @section('content')
 
 <form action="/articles" method="POST">
     @csrf
     <div>
-        Name: <input type="text" name="name" value="SomeValue">
+        Name: <input type="text" name="name">
     </div>
     <div>
-        Desciption: <textarea name="description">SomeDescription</textarea>
+        Desciption: <input type="text" name="description" >
     </div>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="form__button primary">
 </form>
 @if ($errors->any())
     <div class="alert alert-danger">
