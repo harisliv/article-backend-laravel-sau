@@ -17,12 +17,6 @@ class ArticleSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        // DB::table('articles')->insert([
-        //     'name' => $faker->name,
-        //     'description' => $faker->text,
-        // ]);
-
-        Article::factory()->count(10)->create();
-
+            Article::factory()->count(10)->create();
     }
 }

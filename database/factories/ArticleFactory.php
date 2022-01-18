@@ -18,7 +18,7 @@ class ArticleFactory extends Factory
         $randImg = "https://picsum.photos/".rand(0,200);
         return [
             'name' => $this->faker->unique()->name,
-            'category' => $this->faker->randomElement(['economy' ,'sports', 'lifestyle']),
+            'category_id' => rand(1,3),
             'published' => $this->faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $this->faker->text(), 
             'image' => $randImg, 
