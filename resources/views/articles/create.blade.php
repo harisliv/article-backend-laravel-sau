@@ -1,6 +1,5 @@
 @extends('layout.inner')
 @section('content')
-
 <form action="/articles" method="POST">
     @csrf
     <div>
@@ -8,6 +7,13 @@
     </div>
     <div>
         Desciption: <input type="text" name="description" >
+    </div>
+    <div>
+        <select name="category" id="category">
+        @foreach ($categories as $category)
+        <option value={{$category->id}}>{{$category->name}}</option>
+            @endforeach
+        </select>
     </div>
     <input type="submit" value="Submit" class="form__button primary">
 </form>

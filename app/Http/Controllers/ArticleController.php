@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Faker\Generator;
 use Illuminate\Container\Container;
@@ -16,7 +17,7 @@ class ArticleController extends Controller
      */
     public function index_api()
     {
-        $articles = Article::paginate(6);
+        $articles = Article::paginate(18);
         return json_encode($articles->items());
     }
 
@@ -29,11 +30,13 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $articles = Article::paginate(3);
+        $articles = Article::paginate(5);
+        $categories = Category::all();
 
         return view('articles.index', [
             'articles' => $articles,
-            'page_title' => "Articles List"
+            'page_title' => "Articles List",
+            "categories" => $categories
         ]);
     }
 
@@ -44,12 +47,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $articles = Article::paginate(3);
-
+        $categories = Category::all();
         return view('articles.create', [
-            'articles' => $articles,
-            'page_title' => "Articles List"
-        ]);
+            "categories" => $categories]);
     }
 
     /**
@@ -67,7 +67,7 @@ class ArticleController extends Controller
         ]);
         Article::create([
             'name' => $request->name,
-            'category_id' => $faker->numberBetween($min = 1, $max = 3),
+            'category_id' => $request->category,
             'published' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now', $timezone = null),
             'description' => $request->description,
             'image' => $faker->imageUrl($width = 50, $height = 50, 'article'),
@@ -83,12 +83,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        $articles = Article::paginate(3);
-
         return view('articles/show', [
-            'article' => $article, 
-            'articles' => $articles,
-            'page_title' => "Articles List"
+            'article' => $article
         ]);
     }
 
@@ -100,11 +96,12 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $articles = Article::paginate(3);
+        $categories = Category::all();
 
-        return view('articles/edit', ['article' => $article, 
-        'articles' => $articles,
-        'page_title' => "Articles List"]);
+        return view('articles/edit', [
+            'article' => $article, 
+            "categories" => $categories
+        ]);
     }
 
     /**

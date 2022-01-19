@@ -10,6 +10,13 @@
     <div>
         Desciption: <input type="text" name="description" value="{{$article->description}}">
     </div>
+    <div>
+        <select name="category" id="category">
+        @foreach ($categories as $category)
+        <option value={{$category->id}}>{{$category->name}}</option>
+            @endforeach
+        </select>
+    </div>
     <input type="submit" value="Update" class="form__button primary">
 </form>
 </main>
